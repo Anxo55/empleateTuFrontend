@@ -5,8 +5,12 @@ const API_URL_BASE = import.meta.env.VITE_API_BASE_URL
 
 export class OfferService {
   
-  static async getAll() {
-    return await fetchAPI(API_URL_BASE+"/offers")
+  
+  static async search(title?:string) {
+    let url = API_URL_BASE+"/offers"
+    if(title) url += `?title=${title}`
+
+    return await fetchAPI(url)
   }
 
 
@@ -33,6 +37,16 @@ export class OfferService {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(offer),
+      credentials: 'include',
+    });
+  }
+
+  static async delete(id: number) {
+    return await fetchAPI(API_URL_BASE+"/offers/"+id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       credentials: 'include',
     });
   }

@@ -1,8 +1,9 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import Offer from '../models/Offer'
 import { OfferService } from '../services/offer.Service'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Temporal } from 'temporal-polyfill'
+import toast from 'react-hot-toast'
 
 // formulario de creacion de una oferta
 //actualizar una oferta
@@ -60,9 +61,11 @@ const handleSubmit = (e: FormEvent) => {
   }
   if (id)  OfferService.update(Number(id), formData)
   else OfferService.create(formData)
+  toast.success('Oferta guardada con exito')
   navigate('/offers')
 } catch (error) {
   setError(error instanceof Error? error.message : 'Error desconocido')
+  toast.error('Error al guardar la oferta')
 }finally{
   setLoading(false)
 }
