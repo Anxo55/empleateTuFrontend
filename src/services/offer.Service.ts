@@ -1,5 +1,5 @@
 import Offer from "../models/Offer";
-import fetchAPI from "../utils/fetchApi";
+import {fetchAPI} from "../utils/fetchApi";
 const API_URL_BASE = import.meta.env.VITE_API_BASE_URL
 
 
@@ -7,7 +7,7 @@ export class OfferService {
   
   
   static async search(title?:string) {
-    let url = API_URL_BASE+"/offers"
+    let url = API_URL_BASE+"/offers/"
     if(title) url += `?title=${title}`
 
     return await fetchAPI(url)
@@ -16,7 +16,7 @@ export class OfferService {
 
   static async create(offer:Partial<Offer>) {
     
-      return await fetchAPI(API_URL_BASE+"/offers", {
+      return await fetchAPI(API_URL_BASE+"/offers/", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
