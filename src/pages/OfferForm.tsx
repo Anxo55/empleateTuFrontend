@@ -4,6 +4,8 @@ import { OfferService } from '../services/offer.Service'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Temporal } from 'temporal-polyfill'
 import toast from 'react-hot-toast'
+import { CategoryService } from '../services/category.Service'
+import Category from '../models/Category'
 
 // formulario de creacion de una oferta
 //actualizar una oferta
@@ -24,6 +26,8 @@ const [form, setForm] = useState<Partial<Offer>>({
     idCategory: undefined
   
 })
+const [categorias, setCategorias] = useState<Category[]>()
+
 const {id} = useParams()
 const [error, setError] = useState<string | null>(null)
 const [loading, setLoading] = useState(false)
@@ -46,6 +50,12 @@ useEffect(() => {
 
 }, [id])
 
+useEffect(()=> {
+  CategoryService.getAll()
+ .then(setCategorias)
+ .catch(error => setError(error.message))
+}, [id])
+
 
 
 const handleSubmit = (e: FormEvent) => {
@@ -56,6 +66,7 @@ const handleSubmit = (e: FormEvent) => {
   e.preventDefault()
   const formData = {
     ...form,
+    idCategory: form.idCategory ? Number(form.idCategory) : null,
     published: new Date(form.published || '').toISOString(),
     expired: new Date(form.expired || '').toISOString()
   }
@@ -73,7 +84,7 @@ const handleSubmit = (e: FormEvent) => {
   // OfferService.create(formData)
 }
 
-const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { value, name } = e.target;
     setForm({
       ...form,
@@ -134,6 +145,11 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         </label>
 
         <div>Id categoria</div>
+        <select name="idCategory" value={form.idCategory} onChange={handleChange}>
+          <option>Selecciona una categoria</option>
+          {categorias?.map(categoria => 
+          <option key={categoria.id} value={categoria.id}>{categoria.name}</option>)}
+        </select>
 
         <button>Guardar Oferta</button>
 
