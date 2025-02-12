@@ -145,7 +145,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         </label>
 
         <div>Id categoria</div>
-        <select name="idCategory" value={form.idCategory} onChange={handleChange}>
+        <select name="idCategory" value={form.idCategory ?? ''} onChange={handleChange}>
           <option>Selecciona una categoria</option>
           {categorias?.map(categoria => 
           <option key={categoria.id} value={categoria.id}>{categoria.name}</option>)}
