@@ -39,9 +39,11 @@ function OfferList() {
   }
 
   return (
-    <div  className='text-white flex flex-col'>
+    <div  className='text-white flex flex-col items-center'>
       <h1>Lista de ofertas</h1>
+      {/* <button className='bg-blue-600 border-1 rounded-2xl hover:bg-white hover:text-blue-600'>
       <Link to="/offers/new">Añadir nueva oferta</Link>
+      </button> */}
       
       <input value={titleQuery} onChange={handleSearchChange} placeholder='Buscar por título'/>
 
@@ -49,13 +51,16 @@ function OfferList() {
       {error && <p>{error}</p>}
       {offers?.length === 0 && <p>No hay ofertas disponibles</p>}
       {offers?.map(offer => 
-          <div key={offer.id}>
+          <div key={offer.id} className=''>
             {offer.title}
             <Link to={`/offers/${offer.id}`}>Ver</Link>
             <Link to={`/offers/edit/${offer.id}`}>Editar</Link>
-            <button onClick={()=>handleDelete(offer.id)}>Borrar</button>
+            <button onClick={()=>handleDelete(offer.id)} className='bg-red-600 rounded-2xl text-gray-300 cursor-pointer'>Borrar</button>
           </div>
       )}
+      <button className='bg-blue-600 border-1 rounded-2xl hover:bg-white hover:text-blue-600 m-8'>
+      <Link to="/offers/new">Añadir nueva oferta</Link>
+      </button>
       
     </div>
   )
