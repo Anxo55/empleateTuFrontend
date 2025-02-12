@@ -27,7 +27,7 @@ export class OfferService {
   }
 
   static async getById(id:number) {
-    return await fetchAPI(API_URL_BASE+"/offerrs/"+id)
+    return await fetchAPI(API_URL_BASE+"/offers/"+id)
   }
 
   static async update(id: number, offer:Partial<Offer>) {
